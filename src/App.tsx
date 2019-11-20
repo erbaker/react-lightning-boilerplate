@@ -3,14 +3,13 @@ import LCC from 'lightning-container';
 
 import './App.css';
 
-class App extends Component {
-    
-    constructor(props){
-        super(props);
-        this.state = {
-            exampleMessageValue: "Hello from React!"
-        }
-    }
+interface IAppState { exampleMessageValue: string; }
+interface Props {}
+
+class App extends React.Component<Props, IAppState> {
+    state: IAppState = {
+        exampleMessageValue: "Hello from React!"
+      };
     
     componentDidMount(){
         LCC.addMessageHandler(this.messageRecievedHandler);
@@ -22,9 +21,7 @@ class App extends Component {
         console.log("Messaged received.");
         console.log(`Message name: ${name}`);
         console.log(`Message value: ${value}`);
-        
-        // Add Any Logic that should be handled here.
-        
+
         switch (name) {
             case "example":
                 console.log('Handle Example Messgage')

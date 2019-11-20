@@ -2,19 +2,30 @@ const path = require('path');
 
 module.exports = {
     mode: "none",
+    entry: './src/index.tsx',
+    devtool: "source-map",
+    resolve: {
+        extensions: [".ts", ".tsx", ".js"]
+    },
     output: {
         path: path.resolve(__dirname, "force-app/main/default/staticresources/ReactComponent")
     },
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['react','es2015']
+                test: /\.ts(x?)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: "ts-loader"
                     }
-                }
+                ]
+            },
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            {
+                enforce: "pre",
+                test: /\.js$/,
+                loader: "source-map-loader"
             },
             {
                 test: /\.css$/,
@@ -24,5 +35,9 @@ module.exports = {
                 ]
             }
         ]
+    },
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM"
     }
 }
